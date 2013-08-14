@@ -1,11 +1,21 @@
-<?php // APP/Controller/UsersController.php:
-class UsersController extends AppController {
-   public function opauth_complete() {
-       debug($this->data);
-   }
+<?php
 
-   // This allows me to fetch the user row however I want and set a cookie too
-   public function login() {
+App::uses('AppController', 'Controller');
+
+/**
+ * Users Controller
+ *
+ */
+class UsersController extends AppController {
+
+	//public $scaffold = 'admin';
+	
+	public function opauth_complete() {
+		debug($this->data);
+	}
+
+	// This allows me to fetch the user row however I want and set a cookie too
+	public function login() {
 		// 2.0 Auth login
 		if ($this->request->is('post')) {
 			// Try to login
@@ -36,8 +46,9 @@ class UsersController extends AppController {
 				return $this->redirect($this->Auth->redirect());
 			}
 			else {
-				$this->Session->setFlash($this->Auth->loginError, $this->Auth->flashElement,
-						array(), 'auth');
+				$this->Auth->loginError = __('Login error');
+				$this->Session->setFlash($this->Auth->loginError, 'default',
+						array('class'=>'alert alert-error'), 'auth');
 			}
 		}
 
