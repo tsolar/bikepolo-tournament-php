@@ -1,0 +1,6 @@
+[submodule "Plugin/DebugKit"]
+	path = Plugin/DebugKit
+	url = https://github.com/cakephp/debug_kit
+[submodule "Plugin/Opauth"]
+	path = Plugin/Opauth
+	url = git://github.com/uzyn/cakephp-opauth.git
