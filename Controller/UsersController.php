@@ -14,6 +14,10 @@ class UsersController extends AppController {
 		debug($this->data);
 	}
 
+	public function beforeFilter() {
+		$this->Auth->allow('login', 'logout');
+		parent::beforeFilter();
+	}
 	// This allows me to fetch the user row however I want and set a cookie too
 	public function login() {
 		// 2.0 Auth login
