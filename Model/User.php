@@ -3,16 +3,32 @@ App::uses('AppModel', 'Model');
 /**
  * User Model
  *
+ * @property Profile $Profile
  */
 class User extends AppModel {
 
-/**
- * Display field
- *
- * @var string
- */
+	/**
+	 * Display field
+	 *
+	 * @var string
+	 */
 	public $displayField = 'username';
 
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+/**
+ * hasOne associations
+ *
+ * @var array
+ */
+	public $hasOne = array(
+		'Profile' => array(
+			'className' => 'Profile',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 /**
  * Validation rules
  *
@@ -59,16 +75,16 @@ class User extends AppModel {
 	}
 
 	// Checks a login and returns a user
-    public function login($usernameOrEmail, $password) {
+	public function login($usernameOrEmail, $password) {
         return $this->find('first', array(
-            'conditions' => array(
-                'OR' => array(
-                    'User.email' => $usernameOrEmail,
-                    'User.username' => $usernameOrEmail
-                ),
-                'User.password' => $password
-            ),
-            'recursive' => -1
-        ));
-    }
+					'conditions' => array(
+						'OR' => array(
+							'User.email' => $usernameOrEmail,
+							'User.username' => $usernameOrEmail
+						),
+						'User.password' => $password
+					),
+					'recursive' => -1
+		));
+	}
 }
