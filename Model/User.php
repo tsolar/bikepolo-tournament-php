@@ -29,6 +29,21 @@ class User extends AppModel {
 			'order' => ''
 		)
 	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'SocialAccount' => array(
+			'className' => 'SocialAccount',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 /**
  * Validation rules
  *
