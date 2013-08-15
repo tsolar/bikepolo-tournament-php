@@ -23,7 +23,17 @@ class UsersController extends AppController {
 		$profile = array();
 		$user_data = array();
 		$profile['user_id'] = null;
+		$provider = null;
+		$uid = null;
+		$provider_data = array();
+		$provider_data['user_id'] = null;
 		if(!empty($this->data)) {
+			if(!empty($this->data['auth']['provider'])) {
+				$provider = $this->data['auth']['provider'];
+			}
+			if(!empty($this->data['auth']['uid'])) {
+				$uid = $this->data['auth']['uid'];
+			}
 			if(!empty($this->data['auth']['info'])) {
 				$auth_info = $this->data['auth']['info'];
 				$profile['first_name'] = $auth_info['first_name'];
@@ -45,17 +55,40 @@ class UsersController extends AppController {
 			$user = $this->User->findByUsername($user_data['username']);
 		}
 
+		$provider_data['provider'] = $provider;
+		$provider_data['uid'] = $uid;
+		$provider_data['data'] = json_encode($this->data);
+
+		$social_account = $this->User->SocialAccount->find('first',
+				array(
+					'conditions' => array(
+						'uid' => $uid,
+						'provider' => $provider
+					)
+				)
+		);
+		
 		if(!empty($user)) {
 			$data = $user;
 			$profile['user_id'] = $user['User']['id'];
 			$data['Profile'] = $profile; // cambiar por foreach
 			$data['Profile']['id'] = $user['Profile']['id'];
+			if(empty($social_account)) {
+				$provider_data['user_id'] = $user['User']['id'];
+				$data['SocialAccount'] = array($provider_data);
+			}
 		} else {
+			if(!empty($social_account)) {
+				$this->Session->setFlash(__("Account already used!"));
+				return $this->redirect(Router::url('/users/login'));
+			} else {
+				// si está vacía, sigue nomás...
+			}
 			$data = $user;
 			$data['User'] = array();
 			$data['User']['username'] = $user_data['username'];
-			$data['Profile'] = $profile; 
-			
+			$data['Profile'] = $profile;
+			$data['SocialAccount'] = array($provider_data);
 		}
 		if ($this->User->saveAssociated($data)) {
 			$this->Session->setFlash(__('Account associated!'));
@@ -73,10 +106,13 @@ class UsersController extends AppController {
 		// 2.0 Auth login
 		if ($this->request->is('post')) {
 			// Try to login
-			$user = $this->User->login(
-					$this->request->data['User']['username'],
-					AuthComponent::password($this->request->data['User']['password'])
-			);
+			$user = array();
+			if($this->request->data('User.password')) {
+				$user = $this->User->login(
+						$this->request->data['User']['username'],
+						AuthComponent::password($this->request->data['User']['password'])
+				);
+			}
 
 			if (!empty($user)) {
 				$this->Auth->login($user['User']);
@@ -102,7 +138,9 @@ class UsersController extends AppController {
 			else {
 				$this->Auth->loginError = __('Login error');
 				$this->Session->setFlash($this->Auth->loginError, 'default',
-						array('class'=>'alert alert-error'), 'auth');
+						array('class'=>'alert alert-error')
+						//,'auth'
+						);
 			}
 		}
 
