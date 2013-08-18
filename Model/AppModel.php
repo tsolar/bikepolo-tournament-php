@@ -24,11 +24,14 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 
-	function getCurrentUser() {
+	function getCurrentUser($field = null) {
 		App::uses('CakeSession', 'Model/Datasource');
 		$Session = new CakeSession();
 		$user = $Session->read('Auth.User');
-		return $user;
+		App::uses('User', 'Model');
+		$User = new User();
+		$u = $User->findById($user['id']);
+		return $u;
 	}
 
 }
