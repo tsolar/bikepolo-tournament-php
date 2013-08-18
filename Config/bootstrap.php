@@ -62,7 +62,14 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+CakePlugin::loadAll();
+CakePlugin::load('Opauth', array('routes' => true, 'bootstrap' => true));
 
+// Using Facebook strategy as an example
+Configure::write('Opauth.Strategy.Facebook', array(
+   'app_id' => '634947679856891',
+   'app_secret' => '96bf4194f2c407cdf6277347d56734db'
+));
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter . By Default CakePHP bundles two filters:
  *
@@ -98,3 +105,15 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+/**
+ * Haml
+ */
+Configure::write('Haml.format', 'html5');
+Configure::write('Haml.ugly', false);
+Configure::write('Haml.style', 'expanded');
+Configure::write('Haml.filterDir', APP.'View'.DS.'filters');
+
+Configure::write('Sass.style', 'compressed');
+//Configure::write('Sass.cache_location', '/tmp/');
+Configure::write('Asset.filter.css', 'sass.php');
