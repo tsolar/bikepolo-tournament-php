@@ -157,7 +157,7 @@ class UsersController extends AppController {
 	public function profile() {
 		$this->User->id = $this->Auth->user('id');
 		$user = $this->User->find();
-		$teams = $this->User->Player->Team->find('all');
+		$teams = $this->User->Player->TeamMembership->find('all');
 		$this->set(compact('user', 'teams', 'team_list'));
 	}
 
