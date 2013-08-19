@@ -45,3 +45,5 @@ tmp/sessions/*
 
 tmp/tests/*
 !tmp/tests/empty
+
+*.sassc
