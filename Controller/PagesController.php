@@ -23,6 +23,7 @@ App::uses('AppController', 'Controller');
  */
 class PagesController extends AppController {
 
+	public $layout = 'bpt';
 /**
  * Controller name
  *
