@@ -1,0 +1,30 @@
+-#= var_dump($team)
+.row
+	.span12
+		.teams.view
+			%h2
+				= __('Team') . ' ' . $team['Team']['name']
+			- if (!empty($team['TeamMembership']))
+				%h3
+					= __('Players') . ' ' . __('(%s)', count($team['TeamMembership']))
+				- foreach ($team['TeamMembership'] as $teamMembership)
+					-#= var_dump($teamMembership)
+					.player.clearfix
+						%a{:href=>'#{Router::url("/players/view/".$teamMembership["Player"]["id"])}'}
+							.photo.pull-left
+								- if($teamMembership["Player"]["photo"])
+									-#= $this->Html->image($teamMembership["Player"]["photo"])
+									%img.img-polaroid{:alt=>'', :src=>'#{$teamMembership["Player"]["photo"]}'}
+								- else
+									-#= $this->Html->image('otra.jpg')
+									%img.img-polaroid{:alt=>'', :src=>'no.jpg'}
+							.info.pull-right
+								%dl.dl-horizontal
+									%dt
+										= __('Name')
+									%dd
+										= $teamMembership['Player']['name']
+									%dt
+										= __('Description')
+									%dd
+										= $teamMembership['Player']['description']
