@@ -18,7 +18,7 @@
 								- else
 									-#= $this->Html->image('otra.jpg')
 									%img.img-polaroid{:alt=>'', :src=>'no.jpg'}
-							.info.pull-right
+							.info.pull-left
 								%dl.dl-horizontal
 									%dt
 										= __('Name')
@@ -27,4 +27,4 @@
 									%dt
 										= __('Description')
 									%dd
-										= $teamMembership['Player']['description']
+										= nl2br($teamMembership['Player']['description'])
