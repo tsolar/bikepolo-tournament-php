@@ -26,7 +26,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
 	public $viewClass = 'Haml';
-	
+
 	public $components = array(
 		'DebugKit.Toolbar',//=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
 		'Session',
@@ -44,6 +44,12 @@ class AppController extends Controller {
 			'logoutRedirect' =>'/',
 		)
 	);
+
+	public function beforeRender() {
+		if($this->name == 'CakeError') {
+			$this->layout = 'bpt';
+		}
+	}
 
 	public function beforeFilter() {
 		$this->Auth->allow(
