@@ -1,0 +1,27 @@
+.not-member-actions
+	%a.btn.btn-success{:href=>'#requestInvitationModal', :data-toggle=>'modal'}
+		= __('Request invitation')
+
+.modal.fade#requestInvitationModal{:tabindex="-1", :role=>"dialog", :aria-labelledby=>"requestInvitationModalLabel", :aria-hidden="true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				%h4.modal-title
+					= __('Request invitation')
+			.modal-body
+				= $this->element('Teams/request_invitation_form')
+			.modal-footer
+				%button.btn.btn-default.cancel{:type="button", :data-dismiss="modal"}
+					= __('Cancel')
+				%button.btn.btn-primary.request-invitation{:type="button"}
+					= __('Request invitation')
+
+%script
+	$(function(){
+		$('#requestInvitationModal').on('click', '.request-invitation', function(){
+			$.post('/teams/requestInvitation', {team_id:#{$team["Team"]["id"]}}).done(function(){
+				$('#requestInvitationModal').modal('hide');
+			});
+		})
+	});
