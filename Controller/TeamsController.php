@@ -68,7 +68,6 @@ class TeamsController extends AppController {
  * @return void
  */
 	public function add() {
-		$this->checkAdmin();
 		if ($this->request->is('post')) {
 			$this->Team->create();
 			if ($this->Team->save($this->request->data)) {
@@ -156,7 +155,6 @@ class TeamsController extends AppController {
 	}
 
 	public function requestInvitation() {
-		$this->checkAdmin();
 		$this->autoRender = false;
 		$this->autoLayout = false;
 
