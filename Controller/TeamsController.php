@@ -57,9 +57,19 @@ class TeamsController extends AppController {
 		}
 		$options = array('conditions' => array('Team.' . $this->Team->primaryKey => $id));
 		$this->Team->recursive = 2;
-		$this->set('team', $this->Team->find('first', $options));
+		$team = $this->Team->find('first', $options);
+		$this->set('team', $team);
 		$this->set('is_admin', $this->Player->isAdmin($id));
-//		debug($has_membership);
+
+		$user = getCurrentUser();
+		$player_id = $user['Player']['id'];
+		foreach($team['TeamMembership'] as $m) {
+			if($player_id == $m['player_id']) {
+				$has_membership = true;
+				break;
+			}
+		}
+		$this->set(compact('has_membership'));
 	}
 
 /**
@@ -192,5 +202,19 @@ class TeamsController extends AppController {
 						)
 					);
 		}
+	}
+
+	public function player($id) {
+		$this->paginate = array(
+			'TeamMembership' => array(
+				'conditions' => array(
+					'player_id =' => $id,
+					'approved' => 1,
+					'Team.id !='=>'null'
+				),
+				'limit' => 10,
+			),
+		);
+		$this->set('teams', $this->paginate('TeamMembership'));
 	}
 }
