@@ -8,8 +8,6 @@ App::uses('AppModel', 'Model');
  */
 class TeamMembership extends AppModel {
 
-	public $useTable = 'players_teams';
-
 /**
  * Display field
  *
