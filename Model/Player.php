@@ -94,11 +94,25 @@ class Player extends AppModel {
 	public function findWithoutCurrentUser($type = 'first', $params = array()) {
 		return $this->findWithoutMe($type, $params);
 	}
+
 	public function findWithoutMe($type = 'first', $params = array()) {
 		$user = $this->getCurrentUser();
 		debug($user);
 		$user_id = $user['id'];
 		$params['conditions']['user_id !='] = $user_id;
 		return $this->find($type, $params);
+	}
+
+	public function isAdmin($team_id) {
+		$user = $this->getCurrentUser();
+		$id = $user['Player']['id'];
+		$player = $this->findById($id);
+		App::uses('TeamMembership', 'Model');
+
+		$team_membership = $this->TeamMembership->findByTeamIdAndPlayerId($team_id, $id);
+		if(!empty($team_membership)) {
+			return $team_membership['TeamMembership']['is_admin'];
+		}
+		return false;
 	}
 }
