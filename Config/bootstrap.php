@@ -115,5 +115,15 @@ Configure::write('Haml.style', 'expanded');
 Configure::write('Haml.filterDir', APP.'View'.DS.'filters');
 
 Configure::write('Sass.style', 'compressed');
-//Configure::write('Sass.cache_location', '/tmp/');
+Configure::write('Sass.cache_location', APP.'tmp'.DS);
 Configure::write('Asset.filter.css', 'sass.php');
+
+function getCurrentUser($field = null) {
+	App::uses('CakeSession', 'Model/Datasource');
+	$Session = new CakeSession();
+	$user = $Session->read('Auth.User');
+	App::uses('User', 'Model');
+	$User = new User();
+	$u = $User->findById($user['id']);
+	return $u;
+}
