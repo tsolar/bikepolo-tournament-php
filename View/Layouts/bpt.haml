@@ -16,6 +16,14 @@
 		= $this->fetch('css');
 		<meta http-equiv="Content-type" content="text/html;charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		= $this->Html->script("bootstrap.min")
+
+		<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+		= $this->Html->script("respond.min")
 	%body
 		#wrap
 			.navbar.navbar-fixed-top
@@ -31,42 +39,77 @@
 
 					.navbar-collapse.{:style=>"height: auto;"}
 						%ul.nav.navbar-nav
-							<li class="active"><a href="#">Home</a></li>
+							<li><a href="/">Home</a></li>
 							<li><a href="#about">About</a></li>
 							<li><a href="#contact">Contact</a></li>
 							<li class="dropdown">
-							<a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Nav header</li>
-							<li><a href="#">Separated link</a></li>
-							<li><a href="#">One more separated link</a></li>
-							</ul>
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="divider"></li>
+									<li class="dropdown-header">Nav header</li>
+									<li><a href="#">Separated link</a></li>
+									<li><a href="#">One more separated link</a></li>
+								</ul>
 							</li>
+						%ul.nav.navbar-nav.pull-right
+							- if(empty($current_user['User']))
+								%li
+									%a{:href=>"/users/login"}
+										= __('Login')
+							- else
+								%li.dropdown
+									%a.dropdown-toggle{:data-toggle=>"dropdown"}
+										= $current_user['User']['username']
+										.caret
+									%ul.dropdown-menu
+										%li
+											%a{:href=>'/users/profile'}
+												= __('My profile')
+										- if (!empty($current_user['Player']))
+											%li
+												%a{:href=>"/teams/player/#{$current_user['Player']['id']}"}
+													= __('My teams')
+											%li
+												%a{:href=>"/users/stats/#{$current_user['Player']['id']}"}
+													= __('My stats')
+										%li.divider
+										%li
+											%a{:href=>'/users/logout'}
+												= __('Logout')
 					
 			.container
 				.hide#header
 					%h1
 						= $this->Html->link($appDescription, '/')
 				#content
+					= $this->element('loading')
+					.hide
+						= $this->Session->flash();
 
-					= $this->Session->flash();
-
-					= $this->fetch('content');
+						= $this->fetch('content');
 		#footer
 			.container
 				= $this->Html->link($this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),						'http://www.cakephp.org/',						array('target' => '_blank', 'escape' => false)	);
-				
-		= $this->element('sql_dump'); 
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="//code.jquery.com/jquery.js"></script>
-		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		= $this->Html->script("bootstrap.min")
 
-		<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-		= $this->Html->script("respond.min")
+		- if(Configure::read('debug')>0)
+			= debug($this->request->controller)
+			= debug($this->request->action)
+			- if (!empty($current_user))
+				= debug($current_user)
+		= $this->element('sql_dump'); 
+		
+		%script
+			- if($this->request->controller != 'pages')
+				$('body').find('.navbar a').filter('[href^="/#{$this->request->controller}/#{$this->request->action}"]').closest('li').addClass('active');
+			- if($this->here == '/')
+				$('body').find('.navbar a').filter('[href="/"]').closest('li').addClass('active');
 
 		= $this->fetch('script')
+		%script
+			$(document).ready(function(){
+				$('.loading').hide();
+				$('#content > .hide').removeClass('hide').show();
+			});
