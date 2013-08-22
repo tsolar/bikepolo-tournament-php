@@ -9,6 +9,7 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
 	//public $scaffold = 'admin';
+	public $layout = 'bpt';
 	
 	public function beforeFilter() {
 		$this->Auth->allow('login', 'logout', 'opauth_complete');
@@ -155,10 +156,15 @@ class UsersController extends AppController {
 	}
 
 	public function profile() {
-		$this->User->id = $this->Auth->user('id');
-		$user = $this->User->find();
-		$teams = $this->User->Player->TeamMembership->find('all');
-		$this->set(compact('user', 'teams', 'team_list'));
+		$current_user = getCurrentUser();
+		$this->User->id = $current_user['User']['id'];
+		$user = $this->User->findById($current_user['User']['id']);
+		$teams = $this->User->Player->TeamMembership->find('all', array(
+			'conditions'=>array(
+				'TeamMembership.player_id ='=>$user['Player']['id'],
+			),
+		));
+		$this->set(compact('user', 'teams'));
 	}
 
 }
