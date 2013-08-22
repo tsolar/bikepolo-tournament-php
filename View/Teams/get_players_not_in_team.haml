@@ -1,0 +1,6 @@
+%select{:name=>'players', :multiple=>''}
+	%option{:value=>''}
+		= __('Choose...')
+	- foreach ($players as $p)
+		%option{:value=>"#{$p['Player']['id']}"}
+			= $p['Player']['name'] . ' / ' . $p['Player']['user_id']
