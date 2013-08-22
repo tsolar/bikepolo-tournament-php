@@ -46,13 +46,13 @@ class AppController extends Controller {
 	);
 
 	public function beforeFilter() {
+		$this->Auth->allow(
+				'index',
+				'display',
+				'view'
+				);
 		if (Configure::read('debug') > 0) {
 			$this->scaffold = '';
-			$this->Auth->allow(
-					'index',
-//					'add',
-					'view'
-					);
 		}
 		$current_user = getCurrentUser();
 		$this->set(compact('current_user'));
