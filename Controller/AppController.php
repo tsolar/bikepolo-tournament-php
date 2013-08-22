@@ -24,6 +24,8 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+	public $viewClass = 'Haml';
 	
 	public $components = array(
 		'DebugKit.Toolbar',//=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
@@ -44,11 +46,16 @@ class AppController extends Controller {
 	);
 
 	public function beforeFilter() {
-
 		if (Configure::read('debug') > 0) {
 			$this->scaffold = '';
-			$this->Auth->allow('index', 'add');
+			$this->Auth->allow(
+					'index',
+//					'add',
+					'view'
+					);
 		}
+		$current_user = getCurrentUser();
+		$this->set(compact('current_user'));
 
 		// This allows me to log the user in with the cookie
 		$userData = $this->Cookie->read('User');
