@@ -8,7 +8,7 @@
 			= $appDescription .": ".$title_for_layout;
 		= $this->Html->meta('icon');
 		= $this->Html->css('cake.generic');
-		= $this->Html->css('bootstrap.min');
+		= $this->Html->css('bootstrap');
 		= $this->Html->css('font-awesome.min');
 		<!--[if IE 7]>
 			= $this->Html->css('font-awesome-ie7.min');
@@ -27,21 +27,30 @@
 		= $this->Html->script("bootstrap.min")
 
 		<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		= $this->Html->script("html5shiv")
 		= $this->Html->script("respond.min")
+		<![endif]-->
+		-# others...
+		= $this->Html->script("holder")
+		= $this->Html->script("customizer")
+		= $this->Html->script("uglify")
 	%body
 		#wrap
-			.navbar.navbar-fixed-top
+			.navbar.navbar-fixed-top.bs-docs-nav.navbar-inverse
 				.container
 					.navbar-header
-						<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+						<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" >
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
 						</button>
 						.navbar-brand
-							= $this->Html->link($appDescription, '/')
+							-#= $this->Html->link($appDescription, '/')
+							= $appDescription
 
-					.navbar-collapse.{:style=>"height: auto;"}
+					.navbar-collapse.collapse
 						%ul.nav.navbar-nav
 							<li><a href="/">Home</a></li>
 							<li><a href="#about">About</a></li>
