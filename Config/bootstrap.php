@@ -112,6 +112,7 @@ CakeLog::config('error', array(
 Configure::write('Haml.format', 'html5');
 Configure::write('Haml.ugly', false);
 Configure::write('Haml.style', 'expanded');
+Configure::write('Haml.cache_location', APP.'tmp'.DS);
 Configure::write('Haml.filterDir', APP.'View'.DS.'filters');
 
 Configure::write('Sass.style', 'compressed');
