@@ -61,8 +61,7 @@ class TeamsController extends AppController {
 		$this->set('team', $team);
 		$this->set('is_admin', $this->Player->isAdmin($id));
 
-		$user = getCurrentUser();
-		$player_id = $user['Player']['id'];
+		$player_id = $this->Player->getIdFromUser();
 		foreach($team['TeamMembership'] as $m) {
 			if($player_id == $m['player_id']) {
 				$has_membership = true;
