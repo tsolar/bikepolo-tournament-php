@@ -1,0 +1,26 @@
+.row
+	.span12
+		.teams.memberships
+			- if(!empty($memberships))
+				%table.table.table-hover
+					%thead
+						%tr
+							%th
+								= __('Player')
+							%th
+								= __('Approved')
+							%th
+								= __('Is admin?')
+							%th
+								= __('Is captain?')
+					%tbody
+						- foreach($memberships as $m)
+							%tr
+								%td
+									= $m['Player']['name']
+								%td
+									= $m['TeamMembership']['approved'] ? 'approved' : 'waiting'
+								%td
+									= $m['TeamMembership']['is_admin'] ? 'yes' : 'no'
+								%td
+									= $m['TeamMembership']['is_captain'] ? 'yes' : 'no'
