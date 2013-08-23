@@ -4,14 +4,15 @@
 		.teams.view
 			%h2
 				= __('Team') . ' ' . $team['Team']['name']
-			- if(!(empty($is_admin)))
-				= $this->element('Teams/admin_actions')
-			- else
-				- if(empty($has_membership))
-					-#= __('NO ES MIEMBRO')
-					= $this->element('Teams/not_member_actions')
+			- if (!empty($current_user))
+				- if(!(empty($is_admin)))
+					= $this->element('Teams/admin_actions')
 				- else
-					-#= __('UD ES MIEMBRO DE ESTE EQUIPO')
+					- if(empty($has_membership))
+						-#= __('NO ES MIEMBRO')
+						= $this->element('Teams/not_member_actions')
+					- else
+						-#= __('UD ES MIEMBRO DE ESTE EQUIPO')
 			- if (!empty($team['TeamMembership']))
 				%h3
 					= __('Players') . ' ' . __('(%s)', count($team['TeamMembership']))
