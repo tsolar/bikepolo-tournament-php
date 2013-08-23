@@ -104,9 +104,7 @@ class Player extends AppModel {
 	}
 
 	public function isAdmin($team_id) {
-		$user = $this->getCurrentUser();
-		$id = $user['Player']['id'];
-		$player = $this->findById($id);
+		$id = $this->getIdFromUser();
 		App::uses('TeamMembership', 'Model');
 
 		$team_membership = $this->TeamMembership->findByTeamIdAndPlayerId($team_id, $id);
@@ -114,5 +112,25 @@ class Player extends AppModel {
 			return $team_membership['TeamMembership']['is_admin'];
 		}
 		return false;
+	}
+
+	/**
+	 * Returns player id if given user has player. Otherwise returns null.
+	 * 
+	 * @param integer $id user id
+	 * @return integer player id
+	 */
+	public function getIdFromUser($id = null) {
+		if(is_null($id)) {
+			$user = getCurrentUser();
+		} else {
+			$user = $this->User->findById($id);
+		}
+
+		$player_id = null;
+		if(!empty($user['Player'])) {
+			$player_id = $user['Player']['id'];
+		}
+		return $player_id;
 	}
 }
