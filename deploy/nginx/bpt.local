@@ -1,0 +1,40 @@
+types {
+    application/x-font-ttf                ttf;
+    font/opentype                         otf;
+    #application/vnd.ms-fontobject         eot;
+    font/x-woff                           woff;
+}
+
+server {
+    listen   80;
+    server_name www.bpt.local;
+    rewrite ^(.*) http://bpt.local$1 permanent;
+}
+
+server {
+    listen   80;
+    server_name bpt.local;
+
+    # root directive should be global
+    root   /home/tom/public_html/bikepolo_tournament/webroot/;
+    index  index.php;
+
+    access_log /var/log/nginx/bpt.local-access.log;
+    error_log /var/log/nginx/bpt.local-error.log;
+
+    location ~* \.(eot|ttf|woff)$ {
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$uri&$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_index   index.php;
+	    fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
