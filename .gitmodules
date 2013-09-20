@@ -4,3 +4,9 @@
 [submodule "Plugin/Opauth"]
 	path = Plugin/Opauth
 	url = git://github.com/uzyn/cakephp-opauth.git
+[submodule "Plugin/Users"]
+	path = Plugin/Users
+	url = git@github.com:tsolar/users
+[submodule "Plugin/Search"]
+	path = Plugin/Search
+	url = https://github.com/CakeDC/search
