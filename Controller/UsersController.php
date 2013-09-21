@@ -9,8 +9,8 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
 	//public $scaffold = 'admin';
-	public $layout = 'bpt';
-	
+	//public $layout = 'bpt';
+
 	public function beforeFilter() {
 		$this->Auth->allow('login', 'logout', 'opauth_complete');
 		parent::beforeFilter();
@@ -28,21 +28,21 @@ class UsersController extends AppController {
 		$uid = null;
 		$provider_data = array();
 		$provider_data['user_id'] = null;
-		if(!empty($this->data)) {
-			if(!empty($this->data['auth']['provider'])) {
+		if (!empty($this->data)) {
+			if (!empty($this->data['auth']['provider'])) {
 				$provider = $this->data['auth']['provider'];
 			}
-			if(!empty($this->data['auth']['uid'])) {
+			if (!empty($this->data['auth']['uid'])) {
 				$uid = $this->data['auth']['uid'];
 			}
-			if(!empty($this->data['auth']['info'])) {
+			if (!empty($this->data['auth']['info'])) {
 				$auth_info = $this->data['auth']['info'];
 				$profile['first_name'] = $auth_info['first_name'];
 				$profile['last_name'] = $auth_info['last_name'];
 				$profile['location'] = $auth_info['location'];
 				$profile['image'] = $auth_info['image'];
 			}
-			if(!empty($this->data['auth']['raw'])) {
+			if (!empty($this->data['auth']['raw'])) {
 				$raw = $this->data['auth']['raw'];
 				$profile['gender'] = $raw['gender'];
 				$profile['timezone'] = $raw['timezone'];
@@ -52,7 +52,7 @@ class UsersController extends AppController {
 		}
 
 		// verifico que si no hay usuario con el id, no haya con el username
-		if(empty($user)) {
+		if (empty($user)) {
 			$user = $this->User->findByUsername($user_data['username']);
 		}
 
@@ -60,43 +60,46 @@ class UsersController extends AppController {
 		$provider_data['uid'] = $uid;
 		$provider_data['data'] = json_encode($this->data);
 
-		$social_account = $this->User->SocialAccount->find('first',
-				array(
-					'conditions' => array(
-						'uid' => $uid,
-						'provider' => $provider
-					)
+		$social_account = $this->User->SocialAccount->find('first', array(
+			'conditions' => array(
+				'uid' => $uid,
+				'provider' => $provider
+			)
 				)
 		);
-		
-		if(!empty($user)) {
+
+		if (!empty($user)) {
 			$data = $user;
 			$profile['user_id'] = $user['User']['id'];
 			$data['Profile'] = $profile; // cambiar por foreach
 			$data['Profile']['id'] = $user['Profile']['id'];
-			if(empty($social_account)) {
+			if (empty($social_account)) {
 				$provider_data['user_id'] = $user['User']['id'];
 				$data['SocialAccount'] = array($provider_data);
-			}
-		} else {
-			if(!empty($social_account)) {
+			} else {
+				// hay usuario y hay social account
 				$this->Session->setFlash(__("Account already used!"));
 				return $this->redirect(Router::url('/users/login'));
-			} else {
-				// si está vacía, sigue nomás...
 			}
+		} else {
+			// no hay usuario, lo creamos
 			$data = $user;
 			$data['User'] = array();
 			$data['User']['username'] = $user_data['username'];
 			$data['Profile'] = $profile;
-			$data['SocialAccount'] = array($provider_data);
+
+			if (!empty($social_account)) {
+				// hay una social account, pero no hay usuario!
+				$data['SocialAccount'] = $social_account;
+			} else {
+				$data['SocialAccount'] = array($provider_data);
+			}
 		}
 		if ($this->User->saveAssociated($data)) {
-			$this->Session->setFlash(__('Account associated!'));
+			$this->Session->setFlash(__('Login successful!'));
 			$this->Auth->login($data['User']);
 			return $this->redirect(Router::url('/users/profile'));
-		}
-		else {
+		} else {
 			$this->Session->setFlash(__("Can't associate account :("));
 		}
 		return $this->redirect(Router::url('/users/login'));
@@ -108,10 +111,9 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			// Try to login
 			$user = array();
-			if($this->request->data('User.password')) {
+			if ($this->request->data('User.password')) {
 				$user = $this->User->login(
-						$this->request->data['User']['username'],
-						AuthComponent::password($this->request->data['User']['password'])
+						$this->request->data['User']['username'], AuthComponent::password($this->request->data['User']['password'])
 				);
 			}
 
@@ -124,24 +126,20 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('You have successfully logged in.'));
 
 				if (!empty($this->request->data['User']['remember'])) {
-					$this->Cookie->write('User',
-							array_intersect_key(
+					$this->Cookie->write('User', array_intersect_key(
 									$user['User'], array('username' => null, 'password' => null)
 							), true, '1 year');
-				}
-				elseif ($this->Cookie->read('User') != null) {
+				} elseif ($this->Cookie->read('User') != null) {
 					// Delete cookie if they didnt tick a box
 					$this->Cookie->delete('User');
 				}
 
 				return $this->redirect($this->Auth->redirect());
-			}
-			else {
+			} else {
 				$this->Auth->loginError = __('Login error');
-				$this->Session->setFlash($this->Auth->loginError, 'default',
-						array('class'=>'alert alert-error')
+				$this->Session->setFlash($this->Auth->loginError, 'default', array('class' => 'alert alert-error')
 						//,'auth'
-						);
+				);
 			}
 		}
 
@@ -160,8 +158,8 @@ class UsersController extends AppController {
 		$this->User->id = $current_user['User']['id'];
 		$user = $this->User->findById($current_user['User']['id']);
 		$teams = $this->User->Player->TeamMembership->find('all', array(
-			'conditions'=>array(
-				'TeamMembership.player_id ='=>$user['Player']['id'],
+			'conditions' => array(
+				'TeamMembership.player_id =' => $user['Player']['id'],
 			),
 		));
 		$this->set(compact('user', 'teams'));
