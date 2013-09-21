@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  *
@@ -11,7 +12,6 @@
  * @package       app.Controller
  * @since         CakePHP(tm) v 0.2.9
  */
-
 App::uses('Controller', 'Controller');
 
 /**
@@ -25,60 +25,65 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-	public $viewClass = 'Haml';
-
+//	public $viewClass = 'Haml';
 	public $components = array(
-		'DebugKit.Toolbar',//=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
+		'DebugKit.Toolbar', //=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
 		'Session',
 		'Cookie',
 		'Auth' => array(
-			'authenticate'=>array(
-				'Form'=> array(
-					'fields'=>array('username'=>'email', 'password'=>'password'),
+			'authenticate' => array(
+				'Form' => array(
+					//'fields' => array('username' => 'email', 'password' => 'password'),
 					'passwordHasher' => array(
 						'className' => 'Blowfish',
 					),
 				)
 			),
+			'authorize' => 'Controller',
 			'loginRedirect' => '/',
-			'logoutRedirect' =>'/',
+			'logoutRedirect' => '/',
 		)
 	);
 
 	public function beforeRender() {
-		if($this->name == 'CakeError') {
-			$this->layout = 'bpt';
-		}
+
 	}
 
 	public function beforeFilter() {
+		parent::beforeFilter();
+
 		$this->Auth->allow(
-				'index',
-				'display',
-				'view'
-				);
+				'index', 'display', 'view'
+		);
+
 		if (Configure::read('debug') > 0) {
 			$this->scaffold = '';
 		}
+
+		if (!$this->Auth->loggedIn()) {
+			$this->Auth->authError = false;
+		}
+
 		$current_user = getCurrentUser();
 		$this->set(compact('current_user'));
-
-		// This allows me to log the user in with the cookie
-		$userData = $this->Cookie->read('User');
-		if (!empty($userData)) {
-			// Loader User model
-			$this->loadModel($this->Auth->authenticate['Form']['userModel']);
-
-			$userData = $this->User->login(
-					$userData['username'], $userData['password']
-			);
-
-			// Log them in and refresh page
-			if (!empty($userData) && $this->Auth->login($userData['User'])) {
-				$this->redirect($this->request->here);
-			}
-
-		}
-		parent::beforeFilter();
 	}
+
+	public function isAuthorized($user) {
+		// Any registered user can access public functions
+		if (empty($this->request->params['admin'])) {
+			return true;
+		}
+
+		// Only admins can access admin functions
+		if (isset($this->request->params['admin'])) {
+			if (!empty($user['is_admin']) && $user['is_admin'] === true) {
+				return true;
+			}
+			return (bool) ($user['role'] === 'admin');
+		}
+
+		// Default deny
+		return false;
+	}
+
 }
