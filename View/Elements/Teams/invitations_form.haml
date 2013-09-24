@@ -1,9 +1,4 @@
 .invitations-form
 	.players-list
 	
-%script
-	$(document).ready(function(){
-		$.post('/teams/getPlayersNotInTeam', {team_id: '#{$team["Team"]["id"]}'}).done(function(html){
-			$('.players-list').html(html);
-		})
-	});
+= $this->Html->script('Teams/invitations_form', array('block'=>'script'))

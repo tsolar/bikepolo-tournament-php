@@ -20,12 +20,4 @@
 					= __('Cancel')
 				%button.btn.btn-primary.send-invitations{:type="button"}
 					= __('Send invitations')
-
-%script
-	$(function(){
-		$('#sendInvitationsModal').on('click', '.send-invitations', function(){
-			$.post('/teams/sendInvitations', {team_id:#{$team["Team"]["id"]}, players:$('#sendInvitationsModal').find('select').val()}).done(function(){
-				$('#sendInvitationsModal').modal('hide');
-			});
-		})
-	});
+= $this->Html->script('Teams/admin_actions', array('block'=>'script'))
