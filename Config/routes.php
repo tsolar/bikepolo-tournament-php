@@ -26,7 +26,7 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 
 
 Router::connect(
-		'/opauth-complete/*', array('controller' => 'users', 'action' => 'opauth_complete')
+		'/opauth-complete/*', array('controller' => 'app_users', 'action' => 'opauth_complete')
 );
 /**
  * users plugin
