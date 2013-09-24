@@ -8,8 +8,7 @@ App::uses('AppController', 'Controller');
 class TeamsController extends AppController {
 
 	public $uses = array('Team', 'TeamMembership', 'Player');
-	public $layout = 'bpt';
-
+	public $viewClass = 'Haml';
 	public function beforeFilter() {
 		if(!empty($this->params['pass'][0])) {
 			$team_id = $this->params['pass'][0];
@@ -177,16 +176,23 @@ class TeamsController extends AppController {
 		$this->autoLayout = false;
 		$user = getCurrentUser();
 		$player_id = $user['Player']['id'];
-		//debug($this->request->data);
 		$team_id = $this->request->data('team_id');
-		$players = $this->Player->TeamMembership->find('all', array(
+		$memberships = $this->TeamMembership->find('all', array(
+					'conditions' => array(
+						'TeamMembership.team_id =' => $team_id,
+					)
+				)
+		);
+		$players_in_team = array();
+		foreach($memberships as $m) {
+			$players_in_team[] = $m['Player']['id'];
+		}
+		$players = $this->Player->find('all', array(
 			'conditions'=>array(
-				'NOT'=>array('TeamMembership.team_id'=>array( $team_id )), // not in team
-				'NOT'=>array('Player.id'=>array( $player_id )), // not current user
+				'NOT'=>array('Player.id'=>$players_in_team), // not in team
 				),
-			'group'=>'Player.id'
+			'group'=>'Player.id',
 		));
-		//debug($players);
 		$this->set(compact('players'));
 	}
 
