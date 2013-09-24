@@ -24,10 +24,7 @@ class TeamsController extends AppController {
 	}
 
 	private function checkAdmin() {
-		$team_id = null;
-		if(!empty($this->params['pass'][0])) {
-			$team_id = $this->params['pass'][0];
-		}
+		$team_id = $this->request->data('team_id');
 		if(!$this->Player->isAdmin($team_id)) {
 			return $this->redirect(Router::url('index', true));
 		}
@@ -156,6 +153,7 @@ class TeamsController extends AppController {
 		if(!empty($players)) {
 			foreach($players as $p) {
 				if($p) {
+					var_dump($p);
 					$this->saveTeamMembership($team_id, $p);
 				}
 			}
@@ -198,7 +196,7 @@ class TeamsController extends AppController {
 
 	private function saveTeamMembership($team_id, $player_id) {
 		$membership = $this->Team->TeamMembership->findByTeamIdAndPlayerId($team_id, $player_id);
-		if(!empty($membership)) {
+		if(empty($membership)) {
 			$this->Team->TeamMembership->create();
 			$this->Team->TeamMembership->save(
 						array(
