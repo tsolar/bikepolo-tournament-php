@@ -62,13 +62,17 @@ Cache::config('default', array('engine' => 'Apc'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::loadAll();
+//CakePlugin::loadAll();
+CakePlugin::loadAll(array( # or CakePlugin::loadAll(array(
+    'Users', array('routes' => null),
+));
 CakePlugin::load('Opauth', array('routes' => true, 'bootstrap' => true));
 
 // Using Facebook strategy as an example
 Configure::write('Opauth.Strategy.Facebook', array(
-   'app_id' => '634947679856891',
-   'app_secret' => '96bf4194f2c407cdf6277347d56734db'
+	'app_id' => FACEBOOK_APP_ID,
+	'app_secret' => FACEBOOK_APP_SECRET,
+	'scope' => array('email'),
 ));
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -119,12 +123,13 @@ Configure::write('Sass.style', 'compressed');
 Configure::write('Sass.cache_location', APP.'tmp'.DS);
 Configure::write('Asset.filter.css', 'sass.php');
 
-function getCurrentUser($field = null) {
-	App::uses('CakeSession', 'Model/Datasource');
-	$Session = new CakeSession();
-	$user = $Session->read('Auth.User');
-	App::uses('User', 'Model');
-	$User = new User();
-	$u = $User->findById($user['id']);
-	return $u;
+/**
+ * Opauth
+ */
+Configure::write('Opauth.callback_transport', 'session');
+
+function getCurrentUser() {
+    $uid = CakeSession::read('Auth.User.id');
+    $user = ClassRegistry::init('AppUser')->findById($uid);
+    return $user;
 }
