@@ -107,7 +107,7 @@ class AppUsersController extends UsersController {
 
 			if (empty($data['AppUser']['email'])) {
 				$data['AppUser']['email'] = $user_data['email'];
-				$data['AppUser']['email_verified'] = true;
+				$data['AppUser']['email_verified'] = 1;
 			}
 
 			$data['Profile'] = $profile; // cambiar por foreach
