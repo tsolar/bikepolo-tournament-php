@@ -15,12 +15,50 @@
 								= __('Is captain?')
 					%tbody
 						- foreach($memberships as $m)
-							%tr
-								%td
-									= $m['Player']['name']
-								%td
-									= $m['TeamMembership']['approved'] ? 'approved' : 'waiting'
-								%td
-									= $m['TeamMembership']['is_admin'] ? 'yes' : 'no'
-								%td
-									= $m['TeamMembership']['is_captain'] ? 'yes' : 'no'
+							- if($m['Player']['id'] == $current_user['Player']['id'])
+								%tr
+									%td
+										= $m['Player']['name']
+									%td
+										<div class="checkbox">
+										<label>
+										<input disabled data-attr="approved" data-player-id="#{$m['Player']['id']}" data-team-id="#{$m['Team']['id']}" type="checkbox" #{$m['TeamMembership']['approved'] ? 'checked="checked"' : ''}>
+										</label>
+										</div>
+									%td
+										<div class="checkbox">
+
+										<label>
+											<input disabled data-attr="is_admin" data-player-id="#{$m['Player']['id']}" data-team-id="#{$m['Team']['id']}" type="checkbox" #{$m['TeamMembership']['is_admin'] ? 'checked="checked"' : ''}>
+										</label>
+										</div>
+									%td
+										<div class="checkbox">
+										<label>
+										<input disabled data-attr="is_captain" data-player-id="#{$m['Player']['id']}" data-team-id="#{$m['Team']['id']}" type="checkbox" #{$m['TeamMembership']['is_captain'] ? 'checked="checked"' : ''}>
+										</label>
+										</div>
+							- else
+								%tr
+									%td
+										= $m['Player']['name']
+									%td
+										<div class="checkbox">
+										<label>
+										<input data-attr="approved" data-player-id="#{$m['Player']['id']}" data-team-id="#{$m['Team']['id']}" type="checkbox" #{$m['TeamMembership']['approved'] ? 'checked="checked"' : ''}>
+										</label>
+										</div>
+									%td
+										<div class="checkbox">
+
+										<label>
+											<input data-attr="is_admin" data-player-id="#{$m['Player']['id']}" data-team-id="#{$m['Team']['id']}" type="checkbox" #{$m['TeamMembership']['is_admin'] ? 'checked="checked"' : ''}>
+										</label>
+										</div>
+									%td
+										<div class="checkbox">
+										<label>
+										<input data-attr="is_captain" data-player-id="#{$m['Player']['id']}" data-team-id="#{$m['Team']['id']}" type="checkbox" #{$m['TeamMembership']['is_captain'] ? 'checked="checked"' : ''}>
+										</label>
+										</div>
+= $this->Html->script('Teams/memberships', array('block'=>'script'))
