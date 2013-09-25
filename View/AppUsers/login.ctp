@@ -13,14 +13,17 @@
 	<h2><?php echo __d('users', 'Login'); ?></h2>
 	<?php
 	echo $this->Form->create($model, array(
+		'inputDefaults' => array(
+			'label' => false,
+		),
 		'action' => 'login',
 		'id' => 'LoginForm'));
 	echo $this->Form->input('email', array(
-		'label' => __d('users', 'Email'),
+		'placeholder' => __d('users', 'Email'),
 		'class' => 'form-control'
 	));
 	echo $this->Form->input('password', array(
-		'label' => __d('users', 'Password'),
+		'placeholder' => __d('users', 'Password'),
 		'class' => 'form-control'
 	));
 
