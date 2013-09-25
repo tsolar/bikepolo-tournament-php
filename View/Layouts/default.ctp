@@ -170,7 +170,7 @@ $appName = __('Bike Polo Tournament');
 					$('.loading').css('top', $(document).scrollTop()).show();
 				});
 				$('button[type="submit"]').on('click', function() {
-					$('.loading').css('top', $(document).scrollTop()).show();
+					//$('.loading').css('top', $(document).scrollTop()).show();
 				});
 				$('a.show-loading').on('click', function() {
 					$('.loading').css('top', $(document).scrollTop()).show();
