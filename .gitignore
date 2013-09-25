@@ -1,4 +1,5 @@
 [Cc]onfig/core.php
+[Cc]onfig/email.php
 [Cc]onfig/database.php
 app/tmp/*
 app/[Cc]onfig/core.php
