@@ -25,14 +25,19 @@ class TeamsController extends AppController {
 		parent::beforeFilter();
 	}
 
-	private function checkAdmin() {
-		$team_id = $this->request->data('team_id');
+	private function checkAdmin($id = null) {
+		if(!is_null($id)) {
+			$team_id = $id;
+		} else {
+			$team_id = $this->request->data('team_id');
+		}
 		if(!$this->Player->isAdmin($team_id)) {
 			if($this->request->is('ajax')) {
 				return false;
 			}
 			return $this->redirect(Router::url(array('action'=>'index'), true));
 		}
+		return true;
 	}
 
 /**
@@ -97,7 +102,7 @@ class TeamsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$this->checkAdmin();
+		$this->checkAdmin($id);
 		if (!$this->Team->exists($id)) {
 			throw new NotFoundException(__('Invalid team'));
 		}
@@ -122,7 +127,7 @@ class TeamsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->checkAdmin();
+		$this->checkAdmin($id);
 		$this->Team->id = $id;
 		if (!$this->Team->exists()) {
 			throw new NotFoundException(__('Invalid team'));
@@ -137,11 +142,11 @@ class TeamsController extends AppController {
 	}
 
 	public function admin($id = null) {
-		$this->checkAdmin();
+		$this->checkAdmin($id);
 	}
 
 	public function memberships($id = null) {
-		$this->checkAdmin();
+		$this->checkAdmin($id);
 		$this->Team->id = $id;
 		if (!$this->Team->exists()) {
 			throw new NotFoundException(__('Invalid team'));
@@ -150,12 +155,13 @@ class TeamsController extends AppController {
 	}
 
 	public function sendInvitations() {
-		$this->checkAdmin();
 		$this->autoRender = false;
 		$this->autoLayout = false;
+		
+		$team_id = $this->request->data('team_id');
+		$this->checkAdmin($team_id);
 
 		$players = $this->request->data('players');
-		$team_id = $this->request->data('team_id');
 		if(!empty($players)) {
 			foreach($players as $p) {
 				if($p) {
@@ -230,11 +236,11 @@ class TeamsController extends AppController {
 	public function setMembershipAttr() {
 		$this->autoRender = false;
 		$this->autoLayout = false;
-		$is_admin = $this->checkAdmin();
+		$team_id = $this->request->data('team_id');
+		$is_admin = $this->checkAdmin($team_id);
 		if(!$is_admin) {
 			return false;
 		}
-		$team_id = $this->request->data('team_id');
 		$player_id = $this->request->data('player_id');
 		$attr = $this->request->data('attr');
 		$checked = $this->request->data('checked');
