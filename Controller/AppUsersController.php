@@ -143,6 +143,7 @@ class AppUsersController extends UsersController {
 		// automated data
 		$data['AppUser']['tos'] = true;
 		$data['AppUser']['active'] = true;
+		$data['AppUser']['role'] = 'registered';
 		if(empty($data['AppUser']['password'])) {
 			$data['AppUser']['password'] = AuthComponent::password(rand(1000000, 99999999));
 		}
