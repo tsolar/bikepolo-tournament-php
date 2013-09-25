@@ -39,6 +39,18 @@
 	<?php
 	echo $this->Form->end();
 	?>
+	
+	<div class="social-auth">
+		<div class="or-statement">
+			&#8213;&#8213;
+			<?php echo __('Or, if you prefer'); ?>
+			&#8213;&#8213;
+		</div>
+		<a href="/auth/facebook" class="btn btn-primary btn-block">
+			<i class="icon-facebook"></i>
+			<?php echo __('Login with Facebook');?>
+		</a>
+	</div>
 </div>
 <?php
 //echo $this->element('Users.Users/sidebar'); ?>
