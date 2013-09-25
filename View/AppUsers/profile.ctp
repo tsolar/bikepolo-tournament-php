@@ -29,12 +29,20 @@
 				<li>
 					<?php
 					if (!empty($team['Team']['id'])) {
-						if ($team['TeamMembership']['approved']) {
-
-							echo $this->Html->link($team['Team']['name'], Router::url('/teams/view/' . $team['Team']['id']), array('class' => 'button'));
-						} else {
-							echo $this->Html->link($team['Team']['name'], Router::url('/teams/view/' . $team['Team']['id']), array('class' => 'button')) . ' ' . __('(not approved)');
-						}
+						echo $this->Html->link($team['Team']['name'], Router::url('/teams/view/' . $team['Team']['id']), array('class' => 'button'));
+						if($team['TeamMembership']['is_admin']) :
+							?>
+							<span class="label label-info" title="<?php echo __('You are admin of %s', $team['Team']['name']); ?>">admin</span>
+							<?php
+						endif;
+						
+						if (!$team['TeamMembership']['approved']) : ?>
+						<span class="label label-danger">
+							 <?php echo __('not approved'); ?>
+						</span>
+						<?php
+						endif;
+						
 					}
 					?>
 				</li>
@@ -44,6 +52,9 @@
 	<div class="panel-footer">
 		<a href="/teams/add" class="btn btn-primary btn-xs" >
 			<?php echo __('Add team'); ?>
+		</a>
+		<a href="/teams" class="btn btn-default btn-xs" >
+			<?php echo __('View all teams'); ?>
 		</a>
 	</div>
 </div>
