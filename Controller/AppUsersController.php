@@ -35,11 +35,12 @@ class AppUsersController extends UsersController {
 	}
 
 	public function login() {
-		if ($this->Auth->User() === null) {
-			parent::login();
-		} else {
-			return $this->redirect($this->referer());
+		if (empty($this->request->data)) {
+			if ($this->Auth->User() !== null) {
+				return $this->redirect($this->referer());
+			}
 		}
+		parent::login();
 	}
 
 	public function opauth_complete() {
