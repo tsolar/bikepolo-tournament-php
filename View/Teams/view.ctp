@@ -32,6 +32,15 @@
 						<tr>
 							<td><?php echo $teamMembership['Player']['name']; ?></td>
 						</tr>
+						<?php elseif ($teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
+						<tr>
+							<td>
+								<?php echo $teamMembership['Player']['name']; ?>
+								<span class="label label-warning">
+									<?php echo __('Waiting approval'); ?>
+								</span>
+							</td>
+						</tr>
 						<?php endif; ?>
 				<?php endforeach; ?>
 				</table>
