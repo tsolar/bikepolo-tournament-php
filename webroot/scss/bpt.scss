@@ -114,4 +114,13 @@ body {
 	max-width: 330px;
 	margin: 0 auto;
 	padding: 15px;
+	
+	.social-auth {
+		padding: 10px 0;
+		.or-statement {
+			text-align: center;
+			font-style: italic;
+			padding: 10px;
+		}
+	}
 }
