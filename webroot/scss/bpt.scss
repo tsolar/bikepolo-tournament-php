@@ -60,6 +60,11 @@ div.form, div.index, div.view {
     width: 100%;
 }
 
+form {
+	margin:0;
+	width: inherit;
+}
+
 /* BPT
 -------------------------------------------------- */
 body {
