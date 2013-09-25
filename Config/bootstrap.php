@@ -129,7 +129,8 @@ Configure::write('Asset.filter.css', 'sass.php');
 Configure::write('Opauth.callback_transport', 'session');
 
 function getCurrentUser() {
-    $uid = CakeSession::read('Auth.User.id');
-    $user = ClassRegistry::init('AppUser')->findById($uid);
+    $username = CakeSession::read('Auth.User.username');
+    $email = CakeSession::read('Auth.User.email');
+    $user = ClassRegistry::init('AppUser')->findByUsername($username);
     return $user;
 }
