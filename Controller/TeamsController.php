@@ -226,4 +226,20 @@ class TeamsController extends AppController {
 		);
 		$this->set('teams', $this->paginate('TeamMembership'));
 	}
+	
+	public function setMembershipAttr() {
+		$this->autoRender = false;
+		$this->autoLayout = false;
+		$is_admin = $this->checkAdmin();
+		if(!$is_admin) {
+			return false;
+		}
+		$team_id = $this->request->data('team_id');
+		$player_id = $this->request->data('player_id');
+		$attr = $this->request->data('attr');
+		$checked = $this->request->data('checked');
+		$tm = $this->TeamMembership->findByTeamIdAndPlayerId($team_id, $player_id);
+		$this->TeamMembership->id = $tm['TeamMembership']['id'];
+		$field = $this->TeamMembership->saveField($attr, $checked);
+	}
 }
