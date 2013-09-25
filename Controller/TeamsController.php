@@ -4,6 +4,8 @@ App::uses('AppController', 'Controller');
  * Teams Controller
  *
  * @property Team $Team
+ * @property TeamMembership $TeamMembership
+ * @property Player $Player
  */
 class TeamsController extends AppController {
 
@@ -26,7 +28,10 @@ class TeamsController extends AppController {
 	private function checkAdmin() {
 		$team_id = $this->request->data('team_id');
 		if(!$this->Player->isAdmin($team_id)) {
-			return $this->redirect(Router::url('index', true));
+			if($this->request->is('ajax')) {
+				return false;
+			}
+			return $this->redirect(Router::url(array('action'=>'index'), true));
 		}
 	}
 
@@ -136,6 +141,7 @@ class TeamsController extends AppController {
 	}
 
 	public function memberships($id = null) {
+		$this->checkAdmin();
 		$this->Team->id = $id;
 		if (!$this->Team->exists()) {
 			throw new NotFoundException(__('Invalid team'));
