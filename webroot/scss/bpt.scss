@@ -110,11 +110,18 @@ body {
 	}
 }
 
-.login {
+.user-form {
 	max-width: 330px;
 	margin: 0 auto;
 	padding: 15px;
-	
+}
+
+.sign-up {
+	@extend .user-form;
+}
+
+.login {
+	@extend .user-form;
 	.social-auth {
 		padding: 10px 0;
 		.or-statement {
