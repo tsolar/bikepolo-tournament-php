@@ -138,6 +138,7 @@ $appName = __('Bike Polo Tournament');
 		echo $this->Html->script('bootstrap.min');
 		echo $this->Html->script('select2.min');
 		echo $this->Html->script('holder');
+		echo $this->Html->script('Placeholders.min');
 		echo $this->fetch('script');
 		?>
         <script>
