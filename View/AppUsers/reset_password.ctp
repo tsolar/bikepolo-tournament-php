@@ -6,13 +6,22 @@
 			'action' => 'reset_password',
 			$token)));
 	echo $this->Form->input('new_password', array(
-		'label' => __d('users', 'New Password'),
+		'placeholder' => __d('users', 'New Password'),
 		'type' => 'password'));
 	echo $this->Form->input('confirm_password', array(
-		'label' => __d('users', 'Confirm'),
+		'placeholder' => __d('users', 'Confirm'),
 		'type' => 'password'));
-	echo $this->Form->submit(__d('users', 'Submit'));
-	echo $this->Form->end();
 ?>
+		<button type="submit" class = "btn btn-primary btn-block">
+			<?php echo __d('users', 'Submit');
+			?>
+		</button>
+		<a href="/login" class = "btn btn-link btn-block">
+			<?php echo __d('users', 'Back to login');
+			?>
+		</a>
+		<?php
+			echo $this->Form->end();
+		?>
 </div>
-<?php echo $this->element('Users.Users/sidebar'); ?>
+<?php //echo $this->element('Users.Users/sidebar'); ?>
