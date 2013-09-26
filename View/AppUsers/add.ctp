@@ -39,7 +39,17 @@
 				'label' => __d('users', 'I have read and agreed to ') . $tosLink,
 				'default'=>1, 
 				));
-			echo $this->Form->end(__d('users', 'Submit'));
+			?>
+		<button type="submit" class = "btn btn-primary btn-block">
+			<?php echo __d('users', 'Submit');
+			?>
+		</button>
+		<a href="/login" class = "btn btn-link btn-block">
+			<?php echo __d('users', 'Back to login');
+			?>
+		</a>
+		<?php
+			echo $this->Form->end();
 		?>
 	</fieldset>
 </div>
