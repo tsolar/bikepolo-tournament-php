@@ -1,7 +1,11 @@
-<div class="users form">
+<div class="users user-form">
 <h2><?php echo __d('users', 'Reset your password'); ?></h2>
 <?php
 	echo $this->Form->create($model, array(
+		'inputDefaults' => array(
+			'class'=>'form-control',
+			'label'=>false
+			),
 		'url' => array(
 			'action' => 'reset_password',
 			$token)));
