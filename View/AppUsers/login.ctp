@@ -29,7 +29,7 @@
 
 	echo '<p>' . $this->Form->input('remember_me', array('type' => 'checkbox', 'label' => __d('users', 'Remember Me'))) . '</p>';
 	echo '<p>' . $this->Html->link(__d('users', 'I forgot my password'), array('action' => 'reset_password')) . '</p>';
-	echo '<p>' . $this->Html->link(__d('users', 'Do not have an account'), '/register') . '</p>';
+	echo '<p>' . $this->Html->link(__d('users', 'Do not have an account?'), '/register') . '</p>';
 
 	echo $this->Form->hidden('User.return_to', array(
 		'value' => $return_to));
@@ -48,7 +48,7 @@
 			&#8213;&#8213;
 		</div>
 		<a href="/auth/facebook" class="btn btn-primary btn-block">
-			<i class="icon-facebook"></i>
+			<i class="icon-facebook-sign"></i>
 			<?php echo __('Login with Facebook');?>
 		</a>
 	</div>
