@@ -118,7 +118,7 @@ $appName = __('Bike Polo Tournament');
 					<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
 				</div>
 
-				<div id="content">
+				<div id="content" class="row">
 					<?php echo $this->Session->flash(); ?>
 					<?php echo $this->Session->flash('auth'); ?>
 					<?php echo $this->fetch('content'); ?>
