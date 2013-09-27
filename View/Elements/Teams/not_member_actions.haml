@@ -1,8 +1,8 @@
 .not-member-actions
-	%a.btn.btn-success{:href=>'#requestInvitationModal', :data-toggle=>'modal'}
-		= __('Request invitation')
+	%a.btn.btn-success.request-join{:href=>'#requestJoinModal', :data-toggle=>'modal'}
+		= __('Request join')
 
-.modal.fade#requestInvitationModal{:tabindex="-1", :role=>"dialog", :aria-labelledby=>"requestInvitationModalLabel", :aria-hidden="true"}
+.modal.fade#requestJoinModal{:tabindex="-1", :role=>"dialog", :aria-labelledby=>"requestJoinModalLabel", :aria-hidden="true"}
 	.modal-dialog
 		.modal-content
 			.modal-header
@@ -19,9 +19,10 @@
 
 %script
 	$(function(){
-		$('#requestInvitationModal').on('click', '.request-invitation', function(){
-			$.post('/teams/requestInvitation', {team_id:#{$team["Team"]["id"]}}).done(function(){
-				$('#requestInvitationModal').modal('hide');
+		$('#requestJoinModal').on('click', '.request-invitation', function(){
+			$.post('/teams/requestJoin', {team_id:#{$team["Team"]["id"]}}).done(function(){
+				$('.request-join').attr('disabled', 'disabled').text("#{__('Request sent')}");
+				$('#requestJoinModal').modal('hide');
 			});
 		})
 	});
