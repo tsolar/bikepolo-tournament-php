@@ -172,7 +172,7 @@ class TeamsController extends AppController {
 		}
 	}
 
-	public function requestInvitation() {
+	public function requestJoin() {
 		$this->autoRender = false;
 		$this->autoLayout = false;
 
