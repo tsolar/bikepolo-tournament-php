@@ -37,6 +37,11 @@ $appName = __('Bike Polo Tournament');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
+		
+		echo $this->Html->script('jquery-2.0.0');
+		echo $this->Html->script('jquery-migrate-1.2.1');
+		echo $this->Html->script('jquery.form.min');
+		echo $this->Html->script('bootstrap.min');
 		?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,8 +81,8 @@ $appName = __('Bike Polo Tournament');
 							<li class="<?php echo $this->here == '/' ? 'active' : ''; ?>">
 								<a href="/"><?php echo __('Home'); ?></a>
 							</li>
-							<li class="<?php echo $this->here == '/ubicacion' ? 'active' : ''; ?>"><a href="/ubicacion">Ubicación</a></li>
-							<li class="<?php echo $this->here == '/tienda' ? 'active' : ''; ?>"><a href="/tienda">Tienda</a></li>
+<!--							<li class="<?php echo $this->here == '/ubicacion' ? 'active' : ''; ?>"><a href="/ubicacion">Ubicación</a></li>
+							<li class="<?php echo $this->here == '/tienda' ? 'active' : ''; ?>"><a href="/tienda">Tienda</a></li>-->
 						</ul>
 
 						<?php if (!empty($current_user['AppUser'])): ?>
@@ -91,7 +96,7 @@ $appName = __('Bike Polo Tournament');
 										}
 										?>&nbsp;<b class="caret"></b></a>
 									<ul class="dropdown-menu">
-										<li><a href="/users/edit"><?php echo __('My profile'); ?></a></li>
+										<li><a href="/users/profile"><?php echo __('My profile'); ?></a></li>
 										<li class="divider"></li>
 										<li><a href="/logout"><?php echo __('Logout'); ?></a></li>
 									</ul>
@@ -132,10 +137,6 @@ $appName = __('Bike Polo Tournament');
 		</div>
 
 		<?php
-		echo $this->Html->script('jquery-2.0.0');
-		echo $this->Html->script('jquery-migrate-1.2.1');
-		echo $this->Html->script('jquery.form.min');
-		echo $this->Html->script('bootstrap.min');
 		echo $this->Html->script('select2.min');
 		echo $this->Html->script('holder');
 		echo $this->Html->script('Placeholders.min');
