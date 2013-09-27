@@ -16,45 +16,55 @@
  * 
  */
 ?>
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<?php echo __('My teams') ?>
-		</h3>
-	</div>
-	<div class="panel-body">
-		<ul class="list-unstyled">
+<div class="col-sm-6">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<?php echo __('My teams') ?>
+			</h3>
+		</div>
+<!--		<div class="panel-body">
+			<p>
+				<?php //echo __('You are member of these teams'); ?>
+			</p>
+		</div>-->
+		<ul class="list-unstyled list-group">
 			<?php foreach ($teams as $team) { ?>
-				<li>
+				<li class="list-group-item">
 					<?php
 					if (!empty($team['Team']['id'])) {
 						echo $this->Html->link($team['Team']['name'], Router::url('/teams/view/' . $team['Team']['id']), array('class' => 'button'));
-						if($team['TeamMembership']['is_admin']) :
+						if ($team['TeamMembership']['is_admin']) :
 							?>
-							<span class="label label-info" title="<?php echo __('You are admin of %s', $team['Team']['name']); ?>">admin</span>
+							<span class="pull-right label label-primary" title="<?php echo __('You are admin of %s', $team['Team']['name']); ?>">admin</span>
 							<?php
 						endif;
 						
-						if (!$team['TeamMembership']['approved']) : ?>
-						<span class="label label-danger">
-							 <?php echo __('not approved'); ?>
-						</span>
-						<?php
+						if ($team['TeamMembership']['is_captain']) :
+							?>
+							<span class="pull-right label label-info" title="<?php echo __('You are captain of %s', $team['Team']['name']); ?>">captain</span>
+							<?php
 						endif;
-						
+
+						if (!$team['TeamMembership']['approved']) :
+							?>
+							<span class="pull-right label label-warning">
+							<?php echo __('Waiting approval'); ?>
+							</span>
+							<?php
+						endif;
 					}
 					?>
 				</li>
 			<?php } ?>
 		</ul>
-	</div>
-	<div class="panel-footer">
-		<a href="/teams/add" class="btn btn-primary btn-xs" >
-			<?php echo __('Add team'); ?>
-		</a>
-		<a href="/teams" class="btn btn-default btn-xs" >
-			<?php echo __('View all teams'); ?>
-		</a>
+		<div class="panel-footer">
+			<a href="/teams/add" class="btn btn-primary btn-xs" >
+				<?php echo __('Add team'); ?>
+			</a>
+			<a href="/teams" class="btn btn-default btn-xs" >
+				<?php echo __('View all teams'); ?>
+			</a>
+		</div>
 	</div>
 </div>
