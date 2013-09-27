@@ -77,7 +77,7 @@ class AppUser extends User {
 	}
 
 	public function beforeSave($options = array()) {
-		
+		parent::beforeSave($options);
 	}
 
 }
