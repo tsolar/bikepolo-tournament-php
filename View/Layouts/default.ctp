@@ -37,7 +37,33 @@ $appName = __('Bike Polo Tournament');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
-		
+		?>
+		<script>
+			// Avoid `console` errors in browsers that lack a console.
+			(function() {
+				var method;
+				var noop = function() {
+				};
+				var methods = [
+					'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+					'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+					'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+					'timeStamp', 'trace', 'warn'
+				];
+				var length = methods.length;
+				var console = (window.console = window.console || {});
+
+				while (length--) {
+					method = methods[length];
+
+					// Only stub undefined methods.
+					if (!console[method]) {
+						console[method] = noop;
+					}
+				}
+			}());
+		</script>
+		<?php
 		echo $this->Html->script('jquery-2.0.0');
 		echo $this->Html->script('jquery-migrate-1.2.1');
 		echo $this->Html->script('jquery.form.min');
@@ -143,30 +169,6 @@ $appName = __('Bike Polo Tournament');
 		echo $this->fetch('script');
 		?>
         <script>
-			// Avoid `console` errors in browsers that lack a console.
-			(function() {
-				var method;
-				var noop = function() {
-				};
-				var methods = [
-					'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-					'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-					'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-					'timeStamp', 'trace', 'warn'
-				];
-				var length = methods.length;
-				var console = (window.console = window.console || {});
-
-				while (length--) {
-					method = methods[length];
-
-					// Only stub undefined methods.
-					if (!console[method]) {
-						console[method] = noop;
-					}
-				}
-			}());
-
 			$(function() {
 				$('td.actions a').on('click', function() {
 					$('.loading').css('top', $(document).scrollTop()).show();
