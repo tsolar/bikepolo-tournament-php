@@ -64,6 +64,7 @@ class TeamsController extends AppController {
 		$options = array('conditions' => array('Team.' . $this->Team->primaryKey => $id));
 		$this->Team->recursive = 2;
 		$team = $this->Team->find('first', $options);
+		$this->set('title_for_layout', __('Team').' '.$team['Team']['name']);
 		$this->set('team', $team);
 		$this->set('is_admin', $this->Player->isAdmin($id));
 
