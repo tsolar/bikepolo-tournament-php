@@ -1,52 +1,78 @@
 <div class="teams view">
-	<h2>
-		<?php echo __('Team') . ' ' . $team['Team']['name']; ?>
-	</h2>
-	<?php
-	if (!empty($current_user)) {
-		if (!(empty($is_admin))) {
-			echo $this->element('Teams/admin_actions');
-		} else {
-			if (empty($has_membership)) {
-				echo $this->element('Teams/not_member_actions');
-			} else {
-				
-			}
-		}
-	}
-	?>
-	<div class="players">
-
-		<div class="related">
-			<h3><?php echo __('Related Team Memberships'); ?></h3>
-			<?php if (!empty($team['TeamMembership'])): ?>
-				<table cellpadding = "0" cellspacing = "0" class="table table-hover">
-					<tr>
-						<th><?php echo __('Player name'); ?></th>
-					</tr>
-					<?php
-					$i = 0;
-					foreach ($team['TeamMembership'] as $teamMembership):
-						if($teamMembership['approved']):
-						?>
-						<tr>
-							<td><?php echo $teamMembership['Player']['name']; ?></td>
-						</tr>
-						<?php elseif ($teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
-						<tr>
-							<td>
-								<?php echo $teamMembership['Player']['name']; ?>
+	<div class="header col-md-12">
+		<div class="logo">
+			<?php if (!empty($team['Team']['logo'])) : ?>
+				<img alt="<?php echo $team['Team']['name']; ?>" src="<?php echo $team['Team']['logo'] ?>">
+			<?php else: ?>
+				<img alt="<?php echo $team['Team']['name']; ?>" src="holder.js/100x100/auto/text:Sin logo">
+			<?php endif; ?>
+		</div>
+		<div class="name">
+			<h2>
+				<?php echo __('Team') . ' ' . $team['Team']['name']; ?>
+			</h2>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="photo">
+			<?php if (!empty($team['Team']['photo'])) : ?>
+				<img class="img-responsive" alt="<?php echo $team['Team']['name']; ?>" src="<?php echo $team['Team']['photo'] ?>">
+			<?php else: ?>
+				<img alt="<?php echo $team['Team']['name']; ?>" src="holder.js/100%x300/auto/">
+			<?php endif; ?>
+		</div>
+		<div class="description">
+			<p>
+				<?php echo nl2br($team['Team']['description']); ?>
+			</p>
+		</div>
+	</div>
+	<div class="players col-md-4">
+		<?php if (!empty($team['TeamMembership'])): ?>
+			<?php foreach ($team['TeamMembership'] as $teamMembership): ?>
+				<div class="media player">
+					<?php if ($teamMembership['approved']): ?>
+						<a class="pull-left" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
+							<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">
+						</a>
+						<div class="media-body">
+							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
+							<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
+						</div>
+					<?php elseif ($teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
+						<a class="pull-left" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
+							<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">
+						</a>
+						<div class="media-body">
+							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
+							<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
+							<div class="status">
 								<span class="label label-warning">
 									<?php echo __('Waiting approval'); ?>
 								</span>
-							</td>
-						</tr>
-						<?php endif; ?>
-				<?php endforeach; ?>
-				</table>
-			<?php endif; ?>
-		</div>
+							</div>
+						</div>
+					<?php endif; ?>
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</div>
-	<script>
-		var team_id = <?php echo $team['Team']['id']; ?>;
-	</script>
+	<div class="footer col-md-12">
+		<?php
+		if (!empty($current_user)) {
+			if (!(empty($is_admin))) {
+				echo $this->element('Teams/admin_actions');
+			} else {
+				if (empty($has_membership)) {
+					echo $this->element('Teams/not_member_actions');
+				} else {
+					
+				}
+			}
+		}
+		?>
+	</div>
+</div>
+<script>
+	var team_id = <?php echo $team['Team']['id']; ?>;
+</script>
