@@ -1,9 +1,9 @@
 .admin-actions
-	%a.btn.btn-primary{:href=>'/#{$this->request->controller}/edit/#{$team["Team"]["id"]}'}
+	%a.btn.btn-primary.btn-sm{:href=>'/#{$this->request->controller}/edit/#{$team["Team"]["id"]}'}
 		= __('Edit')
-	%a.btn.btn-warning{:href=>'/#{$this->request->controller}/memberships/#{$team["Team"]["id"]}'}
+	%a.btn.btn-warning.btn-sm{:href=>'/#{$this->request->controller}/memberships/#{$team["Team"]["id"]}'}
 		= __('Admin memberships')
-	%a.btn.btn-success{:href=>'#sendInvitationsModal', :data-toggle=>'modal'}
+	%a.btn.btn-success.btn-sm{:href=>'#sendInvitationsModal', :data-toggle=>'modal'}
 		= __('Send invitations')
 
 .modal.fade#sendInvitationsModal{:tabindex="-1", :role=>"dialog", :aria-labelledby=>"sendInvitationsModalLabel", :aria-hidden="true"}
