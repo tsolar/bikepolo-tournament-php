@@ -159,8 +159,18 @@ body {
 	.footer {
 		overflow: hidden;
 	}
-	
+	.logo {
+		width: 100px;
+	}
 	.team {
 		margin-bottom: 20px;
+		a {
+			text-decoration: none;
+		}
+		.thumbnail {
+			img{
+				height: 200px;
+			}
+		}
 	}
 }
