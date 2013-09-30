@@ -16,8 +16,8 @@
 
 	<div class="col-md-12">
 		<p>
-			<?php 
-			echo !empty($player['Player']['description']) ? $player['Player']['description'] : __('No description');
+			<?php
+			echo (!empty($player['Player']['description'])) ? $player['Player']['description'] : __('.');
 			?>
 		</p>
 		<h3>
@@ -25,12 +25,13 @@
 		</h3>
 		<ul class="list-unstyled">
 			<?php foreach ($player['TeamMembership'] as $tm): ?>
-				<li>
-					<a href="/teams/view/<?php echo $tm['Team']['id']; ?>">
-						<?php echo $tm['Team']['name']; ?>
-					</a>
-				</li>
-
+				<?php if ($tm['approved']) : ?>
+					<li>
+						<a href="/teams/view/<?php echo $tm['Team']['id']; ?>">
+							<?php echo $tm['Team']['name']; ?>
+						</a>
+					</li>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
 	</div>
