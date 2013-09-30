@@ -2,7 +2,7 @@
 	<div class="header col-md-12">
 		<div class="logo">
 			<?php if (!empty($team['Team']['logo'])) : ?>
-				<img alt="<?php echo $team['Team']['name']; ?>" src="<?php echo $team['Team']['logo'] ?>">
+				<img class="img-responsive" alt="<?php echo $team['Team']['name']; ?>" src="<?php echo $team['Team']['logo'] ?>">
 			<?php else: ?>
 				<img alt="<?php echo $team['Team']['name']; ?>" src="holder.js/100x100/auto/text:Sin logo">
 			<?php endif; ?>
