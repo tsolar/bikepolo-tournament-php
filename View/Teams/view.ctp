@@ -23,7 +23,11 @@
 		</div>
 		<div class="description">
 			<p>
-				<?php echo nl2br($team['Team']['description']); ?>
+				<?php if (!empty($team['Team']['description'])): ?>
+					<?php echo nl2br($team['Team']['description']); ?>
+				<?php else: ?>
+					<?php echo __('No description'); ?>
+				<?php endif; ?>
 			</p>
 		</div>
 	</div>
@@ -32,15 +36,15 @@
 			<?php foreach ($team['TeamMembership'] as $teamMembership): ?>
 				<div class="media player">
 					<?php if ($teamMembership['approved']): ?>
-						<a class="pull-left" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
+						<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
 							<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">
 						</a>
 						<div class="media-body">
 							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
 							<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
 						</div>
-					<?php elseif ($teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
-						<a class="pull-left" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
+					<?php elseif (!empty($current_user) && $teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
+						<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
 							<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">
 						</a>
 						<div class="media-body">
