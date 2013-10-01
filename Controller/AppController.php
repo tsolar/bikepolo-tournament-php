@@ -30,6 +30,7 @@ class AppController extends Controller {
 		'DebugKit.Toolbar', //=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
 		'Session',
 		'Cookie',
+		'Users.RememberMe',
 		'Auth' => array(
 			'authenticate' => array(
 				'Form' => array(
@@ -47,7 +48,7 @@ class AppController extends Controller {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-
+		$this->components['Users.RememberMe'] = array('userModel' => 'AppUser');
 		$this->Auth->allow(
 				'index', 'display', 'view'
 		);
@@ -63,7 +64,11 @@ class AppController extends Controller {
 	public function isAuthorized($user) {
 		// Any registered user can access public functions
 		if (empty($this->request->params['admin'])) {
-			return true;
+			if (empty($this->request->params['prefix'])) {
+				return true;
+			} elseif ($this->request->params['prefix'] != 'admin') {
+				return true;
+			}
 		}
 
 		// Only admins can access admin functions
@@ -71,7 +76,13 @@ class AppController extends Controller {
 			if (!empty($user['is_admin']) && $user['is_admin'] === true) {
 				return true;
 			}
-			return (bool) ($user['role'] === 'admin');
+		}
+
+		// Only admins can access admin functions
+		if (isset($this->request->params['prefix']) && $this->request->params['prefix'] == 'admin') {
+			if (!empty($user['is_admin']) && $user['is_admin'] === true) {
+				return true;
+			}
 		}
 
 		// Default deny
