@@ -33,6 +33,11 @@ Router::connect(
  */
 Router::connect('/users', array('plugin' => null, 'controller' => 'app_users'));
 Router::connect('/users/index/*', array('plugin' => null, 'controller' => 'app_users'));
+//admin
+Router::connect('/admin/users/*', array('plugin' => null, 'controller' => 'app_users', 'action' => 'index', 'prefix' => 'admin'));
+Router::connect('/admin/users/users/:action/*', array('plugin' => null, 'controller' => 'app_users', 'prefix' => 'admin'));
+Router::connect('/admin/users/:action/*', array('plugin' => null, 'controller' => 'app_users', 'prefix' => 'admin'));
+
 Router::connect('/users/users/:action/*', array('plugin' => null, 'controller' => 'app_users'));
 Router::connect('/users/:action/*', array('plugin' => null, 'controller' => 'app_users'));
 Router::connect('/admin/users/login', array('plugin' => null, 'controller' => 'app_users', 'action' => 'login'));
