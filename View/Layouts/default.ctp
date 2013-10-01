@@ -167,7 +167,7 @@ $appName = __('Bike Polo Tournament');
         <script>
 			$(function() {
 				$('td.actions a').on('click', function() {
-					$('.loading').css('top', $(document).scrollTop()).show();
+					//$('.loading').css('top', $(document).scrollTop()).show();
 				});
 				$('button[type="submit"]').on('click', function() {
 					//$('.loading').css('top', $(document).scrollTop()).show();
