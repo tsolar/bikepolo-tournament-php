@@ -39,15 +39,11 @@ class AppController extends Controller {
 					),
 				)
 			),
-			'authorize' => 'Controller',
+			'authorize' => array('Controller'),
 			'loginRedirect' => '/',
 			'logoutRedirect' => '/',
 		)
 	);
-
-	public function beforeRender() {
-
-	}
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -55,10 +51,6 @@ class AppController extends Controller {
 		$this->Auth->allow(
 				'index', 'display', 'view'
 		);
-
-		if (Configure::read('debug') > 0) {
-			$this->scaffold = '';
-		}
 
 		if (!$this->Auth->loggedIn()) {
 			$this->Auth->authError = false;
