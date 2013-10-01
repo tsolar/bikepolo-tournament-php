@@ -5,7 +5,26 @@ App::uses('UsersController', 'Users.Controller');
 class AppUsersController extends UsersController {
 
 	public $name = 'AppUsers';
-
+	public $components = array(
+		'DebugKit.Toolbar', //=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
+		'Session',
+		'Cookie',
+		//'Users.RememberMe',
+		'Auth' => array(
+			'authenticate' => array(
+				'Form' => array(
+					//'fields' => array('username' => 'email', 'password' => 'password'),
+					'passwordHasher' => array(
+						'className' => 'Blowfish',
+					),
+				)
+			),
+			'authorize' => array('Controller'),
+			'loginRedirect' => '/',
+			'logoutRedirect' => '/',
+		)
+	);
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('login', 'logout', 'opauth_complete');
@@ -117,9 +136,8 @@ class AppUsersController extends UsersController {
 				$data['SocialAccount'] = array($provider_data);
 			} else {
 				// hay usuario y hay social account
-
 				// si el usuario no coincide, la social account ya está en uso
-				if($user['AppUser']['id'] != $social_account['User']['id']) {
+				if ($user['AppUser']['id'] != $social_account['User']['id']) {
 					$this->Session->setFlash(__("Account already used!"));
 					return $this->redirect(Router::url('/users/login'));
 				}
@@ -138,25 +156,23 @@ class AppUsersController extends UsersController {
 			} else {
 				$data['SocialAccount'] = array($provider_data);
 			}
-		
 		}
 		// automated data
 		$data['AppUser']['tos'] = true;
 		$data['AppUser']['active'] = true;
 		$data['AppUser']['role'] = 'registered';
-		if(empty($data['AppUser']['password'])) {
+		if (empty($data['AppUser']['password'])) {
 			$data['AppUser']['password'] = AuthComponent::password(rand(1000000, 99999999));
 		}
 
 		// Player
-		if(empty($data['Player']['name'])) {
-			$data['Player']['name'] =
-					$user_data['username'] ? $user_data['username'] : 'NN';
+		if (empty($data['Player']['name'])) {
+			$data['Player']['name'] = $user_data['username'] ? $user_data['username'] : 'NN';
 		}
-		if(empty($data['Player']['since_date'])) {
+		if (empty($data['Player']['since_date'])) {
 			$data['Player']['since_date'] = date('Y-m-d');
 		}
-		if(empty($data['Player']['active'])) {
+		if (empty($data['Player']['active'])) {
 			$data['Player']['active'] = true;
 		}
 //		var_dump($data);
