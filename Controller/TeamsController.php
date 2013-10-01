@@ -11,17 +11,18 @@ class TeamsController extends AppController {
 
 	public $uses = array('Team', 'TeamMembership', 'Player');
 	public $viewClass = 'Haml';
+	public $scaffold = 'admin';
 	public function beforeFilter() {
-		if(!empty($this->params['pass'][0])) {
-			$team_id = $this->params['pass'][0];
-		}
-		$basic_url = str_replace('/admin', '', $this->here);
-
-		if(strpos($this->action,'admin_') !== false) {
-			if(!$this->Player->isAdmin($team_id)) {
-				return $this->redirect(Router::url($basic_url, true));
-			}
-		}
+//		if(!empty($this->params['pass'][0])) {
+//			$team_id = $this->params['pass'][0];
+//		}
+//		$basic_url = str_replace('/admin', '', $this->here);
+//
+//		if(strpos($this->action,'admin_') !== false) {
+//			if(!$this->Player->isAdmin($team_id)) {
+//				return $this->redirect(Router::url($basic_url, true));
+//			}
+//		}
 		parent::beforeFilter();
 	}
 
@@ -249,4 +250,8 @@ class TeamsController extends AppController {
 		$this->TeamMembership->id = $tm['TeamMembership']['id'];
 		$field = $this->TeamMembership->saveField($attr, $checked);
 	}
+	
+//	public function admin_index() {
+//		echo 'lala';
+//	}
 }
