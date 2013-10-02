@@ -134,3 +134,4 @@ function getCurrentUser() {
     $user = ClassRegistry::init('AppUser')->findByUsername($username);
     return $user;
 }
+error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
