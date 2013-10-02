@@ -54,8 +54,7 @@ if (!defined('APP_DIR')) {
  * The following line differs from its sibling
  * /app/webroot/index.php
  */
-define('CAKE_CORE_INCLUDE_PATH',  DS . 'home' . DS . 'tom' . DS . 'cakephp' . DS . 'current' . DS . 'lib');
-
+define('CAKE_CORE_INCLUDE_PATH',  __DIR__ . DS . '..'.DS.'..' . DS . 'cakephp' . DS . 'current' . DS . 'lib');
 /**
  * Editing below this line should NOT be necessary.
  * Change at your own risk.
