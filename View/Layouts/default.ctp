@@ -23,7 +23,7 @@ $appName = __('Bike Polo Tournament');
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('bpt', null, array('ext' => '.scss'));
+		echo $this->Html->css('scss/bpt', null, array('ext' => '.scss'));
 		echo $this->Html->css('bpt');
 		echo $this->Html->css('font-awesome.min');
 		?>
