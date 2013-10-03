@@ -51,8 +51,9 @@ class TeamsController extends AppController {
 	 */
 	public function index() {
 		$this->Team->recursive = 0;
-		$this->set('teams', $this->paginate(array(
-					'Team.active =' => 1
+		$this->set('teams', $this->paginate(
+						array(
+							'Team.active' => 1
 						)
 		));
 	}
