@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppController', 'Controller');
+
 /**
  * Teams Controller
  *
@@ -12,6 +14,7 @@ class TeamsController extends AppController {
 	public $uses = array('Team', 'TeamMembership', 'Player');
 	public $viewClass = 'Haml';
 	public $scaffold = 'admin';
+
 	public function beforeFilter() {
 //		if(!empty($this->params['pass'][0])) {
 //			$team_id = $this->params['pass'][0];
@@ -27,37 +30,40 @@ class TeamsController extends AppController {
 	}
 
 	private function checkAdmin($id = null) {
-		if(!is_null($id)) {
+		if (!is_null($id)) {
 			$team_id = $id;
 		} else {
 			$team_id = $this->request->data('team_id');
 		}
-		if(!$this->Player->isAdmin($team_id)) {
-			if($this->request->is('ajax')) {
+		if (!$this->Player->isAdmin($team_id)) {
+			if ($this->request->is('ajax')) {
 				return false;
 			}
-			return $this->redirect(Router::url(array('action'=>'index'), true));
+			return $this->redirect(Router::url(array('action' => 'index'), true));
 		}
 		return true;
 	}
 
-/**
- * index method
- *
- * @return void
- */
+	/**
+	 * index method
+	 *
+	 * @return void
+	 */
 	public function index() {
 		$this->Team->recursive = 0;
-		$this->set('teams', $this->paginate());
+		$this->set('teams', $this->paginate(array(
+					'Team.active =' => true
+						)
+		));
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * view method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function view($id = null) {
 		if (!$this->Team->exists($id)) {
 			throw new NotFoundException(__('Invalid team'));
@@ -65,13 +71,13 @@ class TeamsController extends AppController {
 		$options = array('conditions' => array('Team.' . $this->Team->primaryKey => $id));
 		$this->Team->recursive = 2;
 		$team = $this->Team->find('first', $options);
-		$this->set('title_for_layout', __('Team').' '.$team['Team']['name']);
+		$this->set('title_for_layout', __('Team') . ' ' . $team['Team']['name']);
 		$this->set('team', $team);
 		$this->set('is_admin', $this->Player->isAdmin($id));
 
 		$player_id = $this->Player->getIdFromUser();
-		foreach($team['TeamMembership'] as $m) {
-			if($player_id == $m['player_id']) {
+		foreach ($team['TeamMembership'] as $m) {
+			if ($player_id == $m['player_id']) {
 				$has_membership = true;
 				break;
 			}
@@ -79,11 +85,11 @@ class TeamsController extends AppController {
 		$this->set(compact('has_membership'));
 	}
 
-/**
- * add method
- *
- * @return void
- */
+	/**
+	 * add method
+	 *
+	 * @return void
+	 */
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Team->create();
@@ -96,13 +102,13 @@ class TeamsController extends AppController {
 		}
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * edit method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function edit($id = null) {
 		$this->checkAdmin($id);
 		if (!$this->Team->exists($id)) {
@@ -121,13 +127,13 @@ class TeamsController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * delete method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function delete($id = null) {
 		$this->checkAdmin($id);
 		$this->Team->id = $id;
@@ -159,14 +165,14 @@ class TeamsController extends AppController {
 	public function sendInvitations() {
 		$this->autoRender = false;
 		$this->autoLayout = false;
-		
+
 		$team_id = $this->request->data('team_id');
 		$this->checkAdmin($team_id);
 
 		$players = $this->request->data('players');
-		if(!empty($players)) {
-			foreach($players as $p) {
-				if($p) {
+		if (!empty($players)) {
+			foreach ($players as $p) {
+				if ($p) {
 					var_dump($p);
 					$this->saveTeamMembership($team_id, $p);
 				}
@@ -190,34 +196,34 @@ class TeamsController extends AppController {
 		$player_id = $user['Player']['id'];
 		$team_id = $this->request->data('team_id');
 		$memberships = $this->TeamMembership->find('all', array(
-					'conditions' => array(
-						'TeamMembership.team_id =' => $team_id,
-					)
+			'conditions' => array(
+				'TeamMembership.team_id =' => $team_id,
+			)
 				)
 		);
 		$players_in_team = array();
-		foreach($memberships as $m) {
+		foreach ($memberships as $m) {
 			$players_in_team[] = $m['Player']['id'];
 		}
 		$players = $this->Player->find('all', array(
-			'conditions'=>array(
-				'NOT'=>array('Player.id'=>$players_in_team), // not in team
-				),
-			'group'=>'Player.id',
+			'conditions' => array(
+				'NOT' => array('Player.id' => $players_in_team), // not in team
+			),
+			'group' => 'Player.id',
 		));
 		$this->set(compact('players'));
 	}
 
 	private function saveTeamMembership($team_id, $player_id) {
 		$membership = $this->Team->TeamMembership->findByTeamIdAndPlayerId($team_id, $player_id);
-		if(empty($membership)) {
+		if (empty($membership)) {
 			$this->Team->TeamMembership->create();
 			$this->Team->TeamMembership->save(
-						array(
-							'player_id'=>$player_id,
-							'team_id'=>$team_id
-						)
-					);
+					array(
+						'player_id' => $player_id,
+						'team_id' => $team_id
+					)
+			);
 		}
 	}
 
@@ -227,20 +233,20 @@ class TeamsController extends AppController {
 				'conditions' => array(
 					'player_id =' => $id,
 					'approved' => 1,
-					'Team.id !='=>'null'
+					'Team.id !=' => 'null'
 				),
 				'limit' => 10,
 			),
 		);
 		$this->set('teams', $this->paginate('TeamMembership'));
 	}
-	
+
 	public function setMembershipAttr() {
 		$this->autoRender = false;
 		$this->autoLayout = false;
 		$team_id = $this->request->data('team_id');
 		$is_admin = $this->checkAdmin($team_id);
-		if(!$is_admin) {
+		if (!$is_admin) {
 			return false;
 		}
 		$player_id = $this->request->data('player_id');
@@ -250,7 +256,7 @@ class TeamsController extends AppController {
 		$this->TeamMembership->id = $tm['TeamMembership']['id'];
 		$field = $this->TeamMembership->saveField($attr, $checked);
 	}
-	
+
 //	public function admin_index() {
 //		echo 'lala';
 //	}
