@@ -6,7 +6,12 @@ App::uses('AppModel', 'Model');
  * @property TeamMembership $TeamMembership
  */
 class Team extends AppModel {
-
+/**
+ * Order field
+ * @var string
+ */
+	public $order = 'name';
+	
 /**
  * Display field
  *
