@@ -34,8 +34,8 @@
 	<div class="players col-md-4">
 		<?php if (!empty($team['TeamMembership'])): ?>
 			<?php foreach ($team['TeamMembership'] as $teamMembership): ?>
-				<div class="media player">
-					<?php if ($teamMembership['approved']): ?>
+				<?php if ($teamMembership['approved']): ?>
+					<div class="media player">
 						<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
 							<!--<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">-->
 							<?php echo $this->Players->getPhoto($teamMembership['Player']['id']); ?>
@@ -44,10 +44,13 @@
 							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
 							<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
 						</div>
-					<?php elseif (!empty($current_user) && $teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
+					</div>
+				<?php elseif (!empty($current_user) && $teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
+					<div class="media player">
+
 						<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
 							<!--<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">-->
-							<?php echo $this->Players->getPhoto($teamMembership['Player']['id']);  ?>
+							<?php echo $this->Players->getPhoto($teamMembership['Player']['id']); ?>
 						</a>
 						<div class="media-body">
 							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
@@ -58,8 +61,8 @@
 								</span>
 							</div>
 						</div>
-					<?php endif; ?>
-				</div>
+					</div>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
