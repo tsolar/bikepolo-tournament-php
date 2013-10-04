@@ -45,23 +45,24 @@
 							<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
 						</div>
 					</div>
-				<?php elseif (!empty($current_user) && $teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
-					<div class="media player">
-
-						<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
-							<!--<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">-->
-							<?php echo $this->Players->getPhoto($teamMembership['Player']['id']); ?>
-						</a>
-						<div class="media-body">
-							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
-							<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
-							<div class="status">
-								<span class="label label-warning">
-									<?php echo __('Waiting approval'); ?>
-								</span>
+				<?php else: ?>
+					<?php if (!empty($current_user) && $teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
+						<div class="media player">
+							<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
+								<!--<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">-->
+								<?php echo $this->Players->getPhoto($teamMembership['Player']['id']); ?>
+							</a>
+							<div class="media-body">
+								<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
+								<p><?php echo nl2br($teamMembership['Player']['description']); ?></p>
+								<div class="status">
+									<span class="label label-warning">
+										<?php echo __('Waiting approval'); ?>
+									</span>
+								</div>
 							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
