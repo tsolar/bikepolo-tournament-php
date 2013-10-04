@@ -13,3 +13,6 @@
 [submodule "Plugin/Utils"]
 	path = Plugin/Utils
 	url = https://github.com/CakeDC/utils
+[submodule "Plugin/Gravatar"]
+	path = Plugin/Gravatar
+	url = git@github.com:martinbean/cakephp-gravatar-plugin.git
