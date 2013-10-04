@@ -1,11 +1,7 @@
 <div class="players view">
 	<div class="header col-md-12">
 		<div class="logo">
-			<?php if (!empty($player['Player']['photo'])) : ?>
-				<img alt="<?php echo $player['Player']['name']; ?>" src="<?php echo $player['Player']['photo'] ?>">
-			<?php else: ?>
-				<img alt="<?php echo $player['Player']['name']; ?>" src="holder.js/100x100/auto/text:Sin foto">
-			<?php endif; ?>
+			<?php echo $this->element('Players/photo'); ?>
 		</div>
 		<div class="name">
 			<h2>
