@@ -47,7 +47,7 @@
 					<?php elseif (!empty($current_user) && $teamMembership['Player']['id'] == $current_user['Player']['id']): ?>
 						<a class="pull-left thumbnail" href="/players/view/<?php echo $teamMembership['Player']['id']; ?>">
 							<!--<img class="media-object img-polaroid img-responsive" src="holder.js/150x150/auto/text:Sin foto" alt="...">-->
-							<?php echo $this->element('Players/photo'); ?>
+							<?php echo $this->Players->getPhoto($teamMembership['Player']['id']);  ?>
 						</a>
 						<div class="media-body">
 							<h4 class="media-heading"><?php echo $teamMembership['Player']['name']; ?></h4>
