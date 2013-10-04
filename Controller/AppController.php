@@ -49,6 +49,7 @@ class AppController extends Controller {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->components['Users.RememberMe'] = array('userModel' => 'AppUser');
+		$this->helpers[] = 'Gravatar.Gravatar';
 		$this->Auth->allow(
 				'index', 'display', 'view'
 		);
