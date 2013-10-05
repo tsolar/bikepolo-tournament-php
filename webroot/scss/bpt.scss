@@ -162,6 +162,27 @@ body {
 	.logo {
 		width: 100px;
 	}
+	.photo {
+		img {
+			margin: 0 auto;
+		}
+	}
+	.description {
+		padding: 20px 0;
+		dl {
+			width: 100%;
+		}
+		dt, dd {
+			background: none;
+		}
+		dt {
+			width: 40px;
+			font-size: 30px;
+		}
+		dd {
+			margin-left: 50px;
+		}
+	}
 	.team {
 		margin-bottom: 20px;
 		a {
