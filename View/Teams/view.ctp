@@ -22,13 +22,21 @@
 			<?php endif; ?>
 		</div>
 		<div class="description">
-			<p>
-				<?php if (!empty($team['Team']['description'])): ?>
-					<?php echo nl2br($team['Team']['description']); ?>
-				<?php else: ?>
-					<?php echo __('No description'); ?>
-				<?php endif; ?>
-			</p>
+			<dl class="dl-horizontal">
+				<dt><i class="icon-quote-left"></i></dt>
+				<dd>
+					<p>
+						<?php if (!empty($team['Team']['description'])): ?>
+							<?php echo nl2br($team['Team']['description']); ?>
+						<?php else: ?>
+							<?php echo __('No description'); ?>
+						<?php endif; ?>
+					</p>
+				</dd>
+			</dl>
+
+			
+			
 		</div>
 	</div>
 	<div class="players col-md-4">
