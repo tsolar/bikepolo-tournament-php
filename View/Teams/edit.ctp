@@ -8,6 +8,8 @@
 		echo $this->Form->input('since_date');
 		echo $this->Form->input('active');
 		echo $this->Form->input('logo');
+		echo $this->Form->input('photo');
+		echo $this->Form->input('description');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
