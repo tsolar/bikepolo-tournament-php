@@ -59,6 +59,7 @@ class AppUsersController extends UsersController {
 				return $this->redirect($this->referer());
 			}
 		}
+		$this->set('title_for_layout', __('Login'));
 		parent::login();
 	}
 
@@ -198,7 +199,18 @@ class AppUsersController extends UsersController {
 				'TeamMembership.player_id =' => $user['Player']['id'],
 			),
 		));
+		$this->set('title_for_layout', __('Profile'));
 		$this->set(compact('user', 'teams'));
 	}
 
+	public function reset_password($token = null, $user = null) {
+		$this->set('title_for_layout', __('Reset password'));
+		parent::reset_password($token, $user);
+	}
+	
+	
+	public function add($token = null, $user = null) {
+		$this->set('title_for_layout', __('Sign up'));
+		parent::add();
+	}
 }
