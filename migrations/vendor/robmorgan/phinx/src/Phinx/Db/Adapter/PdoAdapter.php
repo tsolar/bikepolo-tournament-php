@@ -317,7 +317,7 @@ abstract class PdoAdapter implements AdapterInterface
      */
     public function migrated(MigrationInterface $migration, $direction, $startTime, $endTime)
     {
-        if (strtolower($direction) == 'up') {
+        if (strtolower($direction) == MigrationInterface::UP) {
             // up
             $sql = sprintf(
                 'INSERT INTO %s ('
@@ -395,7 +395,7 @@ abstract class PdoAdapter implements AdapterInterface
                   ->addColumn('end_time', 'timestamp')
                   ->save();
         } catch(\Exception $exception) {
-            throw new \InvalidArgumentException('There was a problem creating the schema table');
+            throw new \InvalidArgumentException('There was a problem creating the schema table: ' . $exception->getMessage());
         }
     }
 

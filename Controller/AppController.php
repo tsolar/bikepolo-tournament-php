@@ -27,7 +27,12 @@ class AppController extends Controller {
 
 //	public $viewClass = 'Haml';
 	public $components = array(
-		'DebugKit.Toolbar', //=>array('panels'=>array('Redis', 'Tags'), 'forceEnable'=>false),
+		'DebugKit.Toolbar'=>array(
+			'cache'=>array(
+				'engine'=>'Apc',
+			),
+			//'panels'=>array('Redis', 'Tags'), 'forceEnable'=>false
+		),
 		'Session',
 		'Cookie',
 		'Users.RememberMe',
@@ -71,7 +76,7 @@ class AppController extends Controller {
 				return true;
 			}
 		}
-
+        //debug($user);exit;
 		// Only admins can access admin functions
 		if (isset($this->request->params['admin'])) {
 			if (!empty($user['is_admin']) && $user['is_admin'] === true) {
